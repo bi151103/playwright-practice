@@ -1,5 +1,7 @@
 import { defineConfig, devices, PlaywrightTestConfig } from '@playwright/test';
 
+process.loadEnvFile('./.env');
+
 export default defineConfig(
   {
     tsconfig: './tsconfig.json',
