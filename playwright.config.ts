@@ -1,6 +1,7 @@
-import { defineConfig, devices, PlaywrightTestConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
 
-process.loadEnvFile('./.env');
+dotenv.config();
 
 export default defineConfig(
   {
@@ -33,17 +34,15 @@ export default defineConfig(
       {
         name: 'setup-project',
         dependencies: [],
-        grep: [],
-        grepInvert: [],
-        testMatch: [],
+        testMatch: ['**login.test.ts'],
         testIgnore: [],
         use: devices['iPhone 15']
       },
       {
         name: 'playwright-practice',
         dependencies: ['setup-project'],
-        grep: [],
-        grepInvert: [],
+        // grep: [],
+        // grepInvert: [],
         testMatch: [],
         testIgnore: [],
         use: {
