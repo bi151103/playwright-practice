@@ -1,28 +1,20 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '@fixtures';
+import DashboardPage from '@pages/dashboardPage';
+import { FILE_PATHS } from '@shared/constant'
 
-test.describe('login', () => {
-  test.beforeEach('go to orange hrm page',
-    async ({ page }) => {
-      await page.goto('/web/index.php/auth/login');
-    }
-  );
-
+test.describe('Login page', () => {
   test('should login successfully',
-    async ({ page }) => {
-      const usernameInput = page.getByPlaceholder('Username');
-      const passwordInput = page.getByPlaceholder('Password');
-
-      if (process.env.OHRM_USERNAME) {
-        await usernameInput.fill(process.env.OHRM_USERNAME);
+    async ({ page, loginPage, context }) => {
+      await loginPage.navigateTo();
+      
+      if (!(process.env.OHRM_USERNAME && process.env.OHRM_PASSWORD)) {
+        throw new Error('username or password is missing');
       }
-      if (process.env.OHRM_PASSWORD) {
-        await passwordInput.fill(process.env.OHRM_PASSWORD);
-      }
+      await loginPage.login(process.env.OHRM_USERNAME, process.env.OHRM_PASSWORD);
 
-      const loginButton = page.getByRole('button', { name: 'Login' });
-      await loginButton.click();
+      await expect(page).toHaveURL(DashboardPage.PATH);
 
-      await expect(page).toHaveURL('/web/index.php/dashboard/index');
+      await context.storageState({ path: FILE_PATHS.MOBILE_AUTHORIZED_STORAGE_STATE });
     }
   );
 });
