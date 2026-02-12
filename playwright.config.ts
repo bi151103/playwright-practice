@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { FILE_PATHS } from '@shared/constant';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -12,6 +13,8 @@ export default defineConfig(
     retries: process.env.CI ? 2 : undefined,
     reporter: 'html',
     workers: process.env.CI ?? 10,
+
+    testDir: './tests',
 
     //timeout
     globalTimeout: 30 * 60 * 60,//30m, default none
@@ -32,22 +35,17 @@ export default defineConfig(
     //project-specific config
     projects: [
       {
-        name: 'setup-project',
-        dependencies: [],
-        testMatch: ['**login.test.ts'],
-        testIgnore: [],
+        name: 'mobile-authentication-flow-project',
+        testMatch: ['**/mobile/login.test.ts'],
         use: devices['iPhone 15']
       },
       {
-        name: 'playwright-practice',
-        dependencies: ['setup-project'],
-        // grep: [],
-        // grepInvert: [],
-        testMatch: [],
-        testIgnore: [],
+        name: 'mobile',
+        dependencies: ['mobile-authentication-flow-project'],
+        testIgnore: ['**/login.test.ts'],
         use: {
           ...devices['iPhone 15'],
-          storageState: 'playwright-practice-storageState.json'
+          storageState: FILE_PATHS.MOBILE_AUTHORIZED_STORAGE_STATE
         }
       }
     ]
