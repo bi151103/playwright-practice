@@ -1,15 +1,15 @@
-import type { Locator, Page } from '@playwright/test';
-import BasePage from '@pages/basePage';
+// import type { Locator, Page } from '@playwright/test';
+// import StaticRoutePage from './staticRoutePage';
 
-export default class DashboardPage extends BasePage {
-  public static readonly PATH = '/web/index.php/dashboard/index';
+// export default class DashboardPage extends StaticRoutePage {
+//   public static readonly PATH = '/web/index.php/dashboard/index';
 
-  constructor(page: Page) {
-    super(page);
-  }
+//   constructor(page: Page) {
+//     super(page);
+//   }
 
-  //action
-  async navigateTo(): Promise<void> {
-    await this._page.goto(DashboardPage.PATH);
-  }
-}
+//   //action
+//   async navigateTo(): Promise<void> {
+//     await this._page.goto(DashboardPage.PATH);
+//   }
+// }
